@@ -17,7 +17,7 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var currentWeatherTypeLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
   
-    
+    var currentWeather = CurrentWeather()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,10 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         // Do any additional setup after loading the view, typically from a nib.
-    let CURRENT_WEATHER_URL = "\(BASE_URL)\(LATITUDE)\(LONGITUDE)\(APP_ID)\(API_KEY )"
+        currentWeather.downloadWeatherDetails {
+              
+        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

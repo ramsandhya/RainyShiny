@@ -19,7 +19,7 @@ class CurrentWeather {
         if _cityName == nil {
             _cityName = ""
         }
-        return cityName
+        return _cityName
     }
     var date: String {
         if _date == nil {
@@ -47,4 +47,23 @@ class CurrentWeather {
         }
         return _currentTemp
     }
+    
+    func downloadWeatherDetails(completed: DownloadComplete) {
+        
+        let currentWeatherURL = URL(string: CURRENT_WEATHER_URL)!
+        Alamofire.request(currentWeatherURL).responseJSON { response in
+            let result = response.result
+            print(response)
+            
+            if let dict = result.value as? Dictionary<String, AnyObject> {
+                if let name = dict["name"] as? String {
+                    self._cityName = name.capitalized
+                }
+            }
+            
+        }
+        completed()
+    }
+    
+ 
 }
