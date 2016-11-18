@@ -39,6 +39,7 @@ class CurrentWeather {
             _weatherType = ""
         }
         return _weatherType
+        
     }
     
     var currentTemp: Double {
@@ -56,14 +57,32 @@ class CurrentWeather {
             print(response)
             
             if let dict = result.value as? Dictionary<String, AnyObject> {
+                
                 if let name = dict["name"] as? String {
                     self._cityName = name.capitalized
+                    print(self._cityName)
+                }
+                
+                if let weather = dict["weather"] as? [Dictionary<String, AnyObject>] {
+                   
+                    if let main = weather[0]["main"] as? String {
+                        self._weatherType = main.capitalized
+                        print(self._weatherType)
+                    }
+                }
+                
+                if let main = dict["main"] as? Dictionary<String, AnyObject> {
+                    if let currentTemp = main["temp"] as? Double {
+                        let kelvinToFahrenheitPreDivision = (currentTemp * (9/5) - 459.67)
+                        let kelvinToFahrenheit = Double(round(10 * kelvinToFahrenheitPreDivision/10))
+                        self._currentTemp = kelvinToFahrenheit
+                        print(self._currentTemp)
+                        
+                    }
                 }
             }
-            
         }
         completed()
     }
-    
- 
+
 }
